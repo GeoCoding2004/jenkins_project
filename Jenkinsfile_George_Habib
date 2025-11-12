@@ -42,6 +42,14 @@ pipeline {
             }
         }
 
+        stage('Security Scan') {
+            steps {
+                script {
+                    bat "call ${VIRTUAL_ENV}\\Scripts\\activate.bat && bandit app.py"
+                }
+            }
+        }
+
         stage('Deploy') {
             steps {
                 script {
