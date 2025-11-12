@@ -9,12 +9,9 @@ pipeline {
         stage('Setup') {
             steps {
                 script {
-
                     if (!fileExists("${env.WORKSPACE}\\${VIRTUAL_ENV}")) {
                         bat "python -m venv ${VIRTUAL_ENV}"
                     }
-                    
-
                     bat "call ${VIRTUAL_ENV}\\Scripts\\activate.bat && pip install -r requirements.txt"
                 }
             }
@@ -31,7 +28,16 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    bat "call venv\\Scripts\\activate.bat && set PYTHONPATH=. && pytest"
+                    bat "call ${VIRTUAL_ENV}\\Scripts\\activate.bat && set PYTHONPATH=. && coverage run -m pytest"
+                }
+            }
+        }
+
+        stage('Coverage') {
+            steps {
+                script {
+                    bat "call ${VIRTUAL_ENV}\\Scripts\\activate.bat && coverage report"
+                    bat "call ${VIRTUAL_ENV}\\Scripts\\activate.bat && coverage html"
                 }
             }
         }
