@@ -5,5 +5,3 @@ def greet(name):
 # There are now TWO blank lines above this line
 if __name__ == "__main__":
     print(greet("World"))
-
-# There is now ONE blank line at the end of the file
